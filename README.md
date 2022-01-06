@@ -1,6 +1,6 @@
 # kbsb-birth-certificate
 
-An Ethereum/Solidity smart contract that marks the birthday of Kaboom Shebang.
+An Ethereum/Solidity smart contract that functions as a birth certificate for Kaboom Shebang.
 
 Resources:
 https://github.com/crytic/building-secure-contracts
