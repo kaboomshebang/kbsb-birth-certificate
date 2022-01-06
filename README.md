@@ -2,6 +2,11 @@
 
 An Ethereum/Solidity smart contract that functions as a birth certificate for Kaboom Shebang.
 
+## WIP
+
+- [ ] Work out logic
+- [ ] Deploy contract
+
 Resources:
 - https://github.com/crytic/building-secure-contracts
 - [The Truffle Suite](https://trufflesuite.com/index.html)
