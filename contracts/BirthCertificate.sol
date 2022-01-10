@@ -9,62 +9,68 @@ pragma solidity 0.8.7;
 contract BirthCertificate {
 
 	/// @notice The address of the contract owner
-	address owner;
+	address private owner;
 
 	/// @notice The state of the 5-year challenge
-	bool public challengeSuccess;
-	uint public contractEndDate;
+	bool private challengeSuccess;
+	uint private contractEndDate;
 	
 	struct Cert {
+		string title;
 		string name;
 		uint birthDate;
 		string planet;
 		string country;
 		string city;
 		string url;
+		address signed;
 	}
 
-	Cert public kbsbCert;
+	Cert private kbsbCert;
 
 	constructor () {
 		owner = msg.sender;
 		contractEndDate = 1799539261; // Sunday, 10 January 2027 00:00:00
 
+		kbsbCert.title = "Digital birth certificate";
 		kbsbCert.name = "Kaboom Shebang";
 		kbsbCert.birthDate = block.timestamp;
 		kbsbCert.planet = "Earth";
 		kbsbCert.country = "The Netherlands";
 		kbsbCert.city = "Amsterdam";
 		kbsbCert.url = "https://www.kaboomshebang.com";
+		kbsbCert.signed = msg.sender;
 	}
 
 	/// @notice Process the challenge
 	/// @param articles The number of articles published on kaboomshebang.com
-	/// @return A string with the success status of the contract
-	function success(uint8 articles) public returns (string memory) {
+	/// @return A string with the contract challenge status
+	function processChallenge(uint8 articles) external returns (string memory) {
         require(msg.sender == owner, "Sorry, only the contract owner can update.");
 
-		/// @custom:conditions Check for 
-		if (block.timestamp > contractEndDate && articles >= 60) {
+		/// @custom:conditions Check if any of the conditions are satisfied
+		if (block.timestamp < contractEndDate) {
+			return "The contract term has not yet expired.";
+		} else if (block.timestamp > contractEndDate && articles >= 60) {
 			challengeSuccess = true;
 			return "Congratulations, mission accomplished!";
-		} else if (block.timestamp < contractEndDate) {
-			return "The contract term has not yet expired.";
-		} else {
+		} else if (block.timestamp > contractEndDate && articles < 60 ) {
 			challengeSuccess = false;
-			return "Your mission is a failure.";
+			return "Challenge lost, mission failed.";
+		} else {
+			return "Processing done. No conditions satisfied. Contract state not modified.";
 		}
 	}
 
-	function printCertificate() public view returns (Cert memory) {
+	function printBirthCertificate() external view returns (Cert memory) {
 		return kbsbCert;
 	}
 
-	function printChallengeSuccesState() public view returns (bool) {
+	function printChallengeSuccesState() external view returns (bool) {
 		return challengeSuccess;
 	}
 
-	function printContractEndUnixDate() public view returns (uint) {
+	function printContractEndDateUnixTime() external view returns (uint) {
 		return contractEndDate;
 	}
 }
