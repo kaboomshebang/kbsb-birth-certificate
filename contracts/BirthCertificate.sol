@@ -42,34 +42,38 @@ contract BirthCertificate {
 		kbsbCert.signed = msg.sender;
 	}
 
-	/// @notice Process the challenge
+	/// @notice Process the challenge and modify the state
 	/// @param articles The number of articles published on kaboomshebang.com
-	/// @return A string with the contract challenge status
-	function processChallenge(uint8 articles) external returns (string memory) {
+	function processChallenge(uint8 articles) external {
         require(msg.sender == owner, "Sorry, only the contract owner can update.");
 
 		/// @custom:conditions Check if any of the conditions are satisfied
+		if (block.timestamp > contractEndDate && articles >= 60) {
+			challengeSuccess = true;
+		} else {
+			challengeSuccess = false;
+		}
+	}
+
+	/// @notice Check if the conditions are satisfied and print the challenge state
+	function printChallengeSuccesState() external view returns (string memory) {
 		if (block.timestamp < contractEndDate) {
 			return "The contract term has not yet expired.";
-		} else if (block.timestamp > contractEndDate && articles >= 60) {
-			challengeSuccess = true;
+		} else if (block.timestamp > contractEndDate && challengeSuccess == true) {
 			return "Congratulations, mission accomplished!";
-		} else if (block.timestamp > contractEndDate && articles < 60 ) {
-			challengeSuccess = false;
+		} else if (block.timestamp > contractEndDate && challengeSuccess == false) {
 			return "Challenge lost, mission failed.";
 		} else {
 			return "Processing done. No conditions satisfied. Contract state not modified.";
 		}
 	}
 
+	/// @notice Print the birth certificate
 	function printBirthCertificate() external view returns (Cert memory) {
 		return kbsbCert;
 	}
 
-	function printChallengeSuccesState() external view returns (bool) {
-		return challengeSuccess;
-	}
-
+	/// @notice Print the contract end date in Unix timstamp format
 	function printContractEndDateUnixTime() external view returns (uint) {
 		return contractEndDate;
 	}
