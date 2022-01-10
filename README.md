@@ -24,15 +24,15 @@ remixd -s <absolute-path> --remix-ide https://remix.ethereum.org
 
 - [X] Work out logic
 - [X] Deploy contracts to testnet
-- [ ] Deploy to Ethereum Mainnet
+- [ ] ~~Deploy to Ethereum Mainnet~~ Too expensive (700USD 😂)
 
 ## Deployed test contracts
 
 HelloKbsb: https://goerli.etherscan.io/address/0x75acf3644a324ba020e950b3d31cb3951e356d20#readContract
 
-BirthCertificate: https://goerli.etherscan.io/address/0xc43074a2fa54b3a1bece766a1a835a016371b81c#readContract
+BirthCertificate: https://goerli.etherscan.io/address/0xec4a7147fccf4183e61b49d45091a5bfebdf45cc#readContract
 
-## Resources
+## Resource
 
 - https://github.com/crytic/building-secure-contracts
 - [The Truffle Suite](https://trufflesuite.com/index.html)
