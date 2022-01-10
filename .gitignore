@@ -1,3 +1,6 @@
 # Solidity smart contract ignores
 .deps
 artifacts
+
+# Node ignores
+node_modules
